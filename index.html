@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Landscape Cost Calculator (2026) — Estimate Your Yard Project</title>
+<meta name="description" content="Free landscape cost calculator. Estimate sod, landscape design, patios, irrigation, and mulch by area and region. 2026 price ranges.">
+<style>
+:root{--g:#2a7a2a;--d:#1f5c1f;--bg:#f6f8f6;--ink:#1c2b1c}
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55}
+.wrap{max-width:720px;margin:0 auto;padding:24px 18px 60px}
+h1{font-size:1.6rem;margin:.2em 0}
+.sub{color:#557;margin-top:0}
+.card{background:#fff;border:1px solid #e2e8e2;border-radius:12px;padding:22px;margin:18px 0;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+label{display:block;font-weight:600;margin:14px 0 6px}
+select,input{width:100%;padding:11px;border:1px solid #cdd6cd;border-radius:8px;font-size:1rem;background:#fff}
+button{margin-top:20px;width:100%;background:var(--g);color:#fff;border:0;border-radius:8px;padding:14px;font-size:1.05rem;font-weight:700;cursor:pointer}
+button:hover{background:var(--d)}
+.result{margin-top:22px;padding:18px;border-left:5px solid var(--g);background:#eef6ee;border-radius:8px;display:none}
+.result.show{display:block}
+.est{font-size:1.9rem;font-weight:800;color:var(--d)}
+.note{font-size:.85rem;color:#667}
+.links li{margin:6px 0}
+a{color:var(--d)}
+footer{font-size:.8rem;color:#778;margin-top:30px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>Landscape Cost Calculator</h1>
+<p class="sub">Estimate the cost of a yard or landscaping project by area, service, and region. Updated for 2026.</p>
+
+<div class="card">
+  <label for="svc">Service</label>
+  <select id="svc">
+    <option value="1.0,2.5">Sod / new lawn install (per sq ft)</option>
+    <option value="6,22">Full landscape design &amp; install (per sq ft)</option>
+    <option value="15,40">Patio / hardscape (per sq ft)</option>
+    <option value="0.5,1.5">In-ground irrigation system (per sq ft)</option>
+    <option value="2,5">Mulch &amp; planting-bed refresh (per sq ft)</option>
+    <option value="0.15,0.4">Annual lawn maintenance (per sq ft, yearly)</option>
+  </select>
+
+  <label for="area">Project area (square feet)</label>
+  <input id="area" type="number" min="1" step="1" value="1000" inputmode="numeric">
+
+  <label for="region">Region</label>
+  <select id="region">
+    <option value="1.00">U.S. average</option>
+    <option value="1.00">Austin, TX</option>
+    <option value="1.10">Denver, CO</option>
+    <option value="0.95">Nashville, TN</option>
+    <option value="1.00">Orlando, FL</option>
+    <option value="0.95">Charlotte, NC</option>
+  </select>
+
+  <label for="tier">Quality tier</label>
+  <select id="tier">
+    <option value="0.85">Basic / budget</option>
+    <option value="1.0" selected>Standard</option>
+    <option value="1.25">Premium</option>
+  </select>
+
+  <button onclick="calc()">Estimate cost</button>
+
+  <div id="out" class="result">
+    <div>Estimated project cost:</div>
+    <div class="est" id="range"></div>
+    <div class="note" id="perft"></div>
+    <p class="note">This is a planning estimate from typical 2026 U.S. ranges adjusted for region and tier. Real quotes vary with access, site prep, materials, and design complexity — always get an on-site quote.</p>
+  </div>
+</div>
+
+<div class="card">
+  <h2 style="margin-top:0">Get real local pricing</h2>
+  <p>National ranges only get you close. For verified 2026 pricing in your city, see the local cost guides:</p>
+  <ul class="links">
+    <li><a href="https://austinprolandscape.com/how-much-does-landscaping-cost-in-austin/">Landscaping cost in Austin, TX</a></li>
+    <li><a href="https://denverprolandscape.com/how-much-does-landscaping-cost-in-denver/">Landscaping cost in Denver, CO</a></li>
+    <li><a href="https://nashvilleprolandscape.com/how-much-does-landscaping-cost-in-nashville/">Landscaping cost in Nashville, TN</a></li>
+    <li><a href="https://orlandoprolandscape.com/how-much-does-landscaping-cost-in-orlando/">Landscaping cost in Orlando, FL</a></li>
+    <li><a href="https://charlotteprolandscape.com/how-much-does-landscaping-cost-in-charlotte/">Landscaping cost in Charlotte, NC</a></li>
+  </ul>
+</div>
+
+<footer>Free landscape cost calculator · estimates only, not a quote · 2026.</footer>
+</div>
+
+<script>
+function money(n){return '$'+Math.round(n).toLocaleString('en-US');}
+function calc(){
+  var sv=document.getElementById('svc').value.split(',');
+  var lo=parseFloat(sv[0]), hi=parseFloat(sv[1]);
+  var area=Math.max(0,parseFloat(document.getElementById('area').value)||0);
+  var reg=parseFloat(document.getElementById('region').value);
+  var tier=parseFloat(document.getElementById('tier').value);
+  var low=area*lo*reg*tier, high=area*hi*reg*tier;
+  document.getElementById('range').textContent=money(low)+' – '+money(high);
+  document.getElementById('perft').textContent='Based on $'+(lo*reg*tier).toFixed(2)+'–$'+(hi*reg*tier).toFixed(2)+' per sq ft × '+area.toLocaleString('en-US')+' sq ft.';
+  document.getElementById('out').classList.add('show');
+}
+calc();
+</script>
+</body>
+</html>
